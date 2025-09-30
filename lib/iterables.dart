@@ -1,6 +1,7 @@
+  import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:its_aa_pn_2025_cross_platform/animal.dart';
 
-Iterable<Animal> getAnimalsStartingWithL(Iterable<Animal> animals) {
+Iterable<Animal> getAnimalsStartingWithL(IList<Animal> animals) {
   return animals.where(
     (element) {
       return element.name.startsWith("L");
@@ -8,18 +9,25 @@ Iterable<Animal> getAnimalsStartingWithL(Iterable<Animal> animals) {
   );
 }
 
-List<Animal> addAnimal(List<Animal> list, Animal animal) {
-  list.add(animal);
-  return list;
+IList<Animal> addAnimal(IList<Animal> list, Animal animal) {
+  return list.add(animal);
 }
 
-List<Animal> removeAnimal(List<Animal> list, Animal animal) {
-  list.remove(animal);
-  return list;
+IList<Animal> removeAnimal(IList<Animal> list, Animal animal) {
+  return list.remove(animal);
 }
 
-List<Animal> updateAnimalName(List<Animal> list, Animal oldAnimal, Animal newAnimal) {
-  list.remove(oldAnimal);
-  list.add(newAnimal);
-  return list;
+// **Funzione Corretta con Operatore Bang (!)**
+IList<Animal> updateAnimalName(IList<Animal> list, Animal oldAnimal, String newName) {
+  return list.replaceAllWhere(
+    (element) => element == oldAnimal,
+    (old) => Animal (
+      name: newName,
+      // Usiamo l'operatore '!' per dire a Dart che siamo sicuri che il valore non sia null
+      bornAt: old.bornAt!,
+      ownerName: old.ownerName!,
+      lastVisitAt: old.lastVisitAt!,
+    ),
+  );
 }
+
